@@ -64,7 +64,7 @@
                 <name>TradeReportingMurexEquityEmeaUkTrigger</name>
                 <job-name>TradeReportingMurexEquityEmeaUkJob</job-name>
                 <job-group>TradeReporting</job-group>
-                <cron-expression>0 0 6 * * ?</cron-expression>
+                <cron-expression>0 */2 * * * ?</cron-expression>
             </cron>
         </trigger>
     </schedule>
