@@ -29,11 +29,7 @@ public class JobInstance {
     private String jobName;      // unique per definition, matches jobs.xml job-name
 
     @Indexed
-    private JobGroup jobGroup;
-    private SourceSystem sourceSystem;
-    private Product product;
-    private Region region;
-    private Jurisdiction jurisdiction;
+    private String jobGroup;
 
     @Indexed
     private String businessDate; // yyyy-MM-dd, always UTC-based

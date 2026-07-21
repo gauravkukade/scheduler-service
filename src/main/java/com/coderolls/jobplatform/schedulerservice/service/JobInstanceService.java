@@ -31,17 +31,13 @@ public class JobInstanceService {
                 .isEmpty();
     }
 
-    public JobInstance createInstance(String jobName, JobDataMap dataMap, String businessDate,
+    public JobInstance createInstance(String jobName, String jobGroup, JobDataMap dataMap, String businessDate,
                                       JobStatus initialStatus, TriggerType triggerType) {
         Instant now = Instant.now();
         JobInstance instance = JobInstance.builder()
                 .instanceId(UUID.randomUUID().toString())
                 .jobName(jobName)
-                .jobGroup(JobGroup.valueOf(dataMap.getString("jobGroup")))
-                .sourceSystem(SourceSystem.valueOf(dataMap.getString("sourceSystem")))
-                .product(Product.valueOf(dataMap.getString("product")))
-                .region(Region.valueOf(dataMap.getString("region")))
-                .jurisdiction(Jurisdiction.valueOf(dataMap.getString("jurisdiction")))
+                .jobGroup(jobGroup)
                 .businessDate(businessDate)
                 .triggerType(triggerType)
                 .attemptNumber(1)

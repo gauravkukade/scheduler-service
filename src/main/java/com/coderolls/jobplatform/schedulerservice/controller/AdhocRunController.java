@@ -53,7 +53,7 @@ public class AdhocRunController {
         }
 
         JobInstance instance = jobInstanceService.createInstance(
-                request.getJobName(), dataMap, request.getBusinessDate(),
+                request.getJobName(), request.getJobGroup(), dataMap, request.getBusinessDate(),
                 JobStatus.CREATED, TriggerType.MANUAL);
 
         jobInstanceService.attemptDispatch(instance);

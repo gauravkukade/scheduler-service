@@ -10,26 +10,6 @@
             <job-class>com.coderolls.jobplatform.schedulerservice.quartz.JobDispatcher</job-class>
             <job-data-map>
                 <entry>
-                    <key>jobGroup</key>
-                    <value>TRADE_REPORTING</value>
-                </entry>
-                <entry>
-                    <key>sourceSystem</key>
-                    <value>MUREX</value>
-                </entry>
-                <entry>
-                    <key>product</key>
-                    <value>EQUITY</value>
-                </entry>
-                <entry>
-                    <key>region</key>
-                    <value>EMEA</value>
-                </entry>
-                <entry>
-                    <key>jurisdiction</key>
-                    <value>UK</value>
-                </entry>
-                <entry>
                     <key>concurrencyPolicy</key>
                     <value>SINGLE_INSTANCE</value>
                 </entry>
