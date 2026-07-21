@@ -1,6 +1,5 @@
 package com.coderolls.jobplatform.schedulerservice.domain;
 
-import com.coderolls.jobplatform.schedulerservice.domain.enums.JobGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +23,7 @@ public class InactiveJob {
     @Indexed(unique = true)
     private String jobName;
 
-    private JobGroup jobGroup;
+    private String jobGroup;
     private String reason;          // one-liner, why it was deactivated
     private String deactivatedBy;
     private Instant deactivatedAt;

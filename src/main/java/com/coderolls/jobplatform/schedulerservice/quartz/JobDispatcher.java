@@ -9,10 +9,7 @@ import com.coderolls.jobplatform.schedulerservice.service.JobInstanceService;
 import com.coderolls.jobplatform.schedulerservice.util.BusinessDateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.Job;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.*;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -25,7 +22,9 @@ public class JobDispatcher implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        String jobName = context.getJobDetail().getKey().getName();
+        JobKey jobKey = context.getJobDetail().getKey();
+        String jobName = jobKey.getName();
+        String jobGroup = jobKey.getGroup();
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 
         if (inactiveJobRepository.existsByJobName(jobName)) {
@@ -40,11 +39,11 @@ public class JobDispatcher implements Job {
                 && jobInstanceService.hasNonTerminalInstance(jobName, businessDate)) {
             log.info("Job [{}] already has a non-terminal instance for {}, skipping (SINGLE_INSTANCE)",
                     jobName, businessDate);
-            jobInstanceService.createInstance(jobName, dataMap, businessDate, JobStatus.SKIPPED_CONCURRENT, TriggerType.SCHEDULED);
+            jobInstanceService.createInstance(jobName, jobGroup, dataMap, businessDate, JobStatus.SKIPPED_CONCURRENT, TriggerType.SCHEDULED);
             return;
         }
 
-        JobInstance instance = jobInstanceService.createInstance(jobName, dataMap, businessDate, JobStatus.CREATED, TriggerType.SCHEDULED);
+        JobInstance instance = jobInstanceService.createInstance(jobName, jobGroup, dataMap, businessDate, JobStatus.CREATED, TriggerType.SCHEDULED);
         jobInstanceService.attemptDispatch(instance);
     }
 }

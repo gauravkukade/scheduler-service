@@ -1,6 +1,5 @@
 package com.coderolls.jobplatform.schedulerservice.dto;
 
-import com.coderolls.jobplatform.schedulerservice.domain.enums.JobGroup;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -11,7 +10,7 @@ public class InactivateJobRequest {
     private String jobName;
     @NotNull
     private
-    JobGroup jobGroup;
+    String jobGroup;
     @NotBlank
     private String reason;
 }
