@@ -25,12 +25,12 @@ public class ProcessorClient {
     public boolean dispatch(JobInstance instance) {
 
         log.info("Dispatching to Processor [{}]: {}",
-                baseUrl + "/api/processor/execute",
+                baseUrl + "/api/processor/process-job",
                 jsonMapper.writeValueAsString(instance));
 
         try {
             restClient.post()
-                    .uri("/api/processor/execute")
+                    .uri("/api/processor/process-job")
                     .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                     .body(instance)
                     .retrieve()

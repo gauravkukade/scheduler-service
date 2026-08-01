@@ -28,15 +28,15 @@ public class JobInstanceController {
     }
 
     @Operation(summary = "Get only the current status of a job instance")
-    @GetMapping("/{instanceId}/status")
-    public ResponseEntity<JobStatus> getStatus(@PathVariable String instanceId) {
+    @GetMapping("/{instanceId}/jobStatus")
+    public ResponseEntity<JobStatus> getJobStatus(@PathVariable String instanceId) {
         return jobInstanceRepository.findByInstanceId(instanceId)
-                .map(instance -> ResponseEntity.ok(instance.getStatus()))
+                .map(instance -> ResponseEntity.ok(instance.getJobStatus()))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Force a stuck (non-terminal) instance to a terminal status. Only FAILED is currently supported.")
-    @PostMapping("/{instanceId}/status/{jobStatus}")
+    @PostMapping("/{instanceId}/jobStatus/{jobStatus}")
     public ResponseEntity<?> forceFail(@PathVariable String instanceId,
                                        @Parameter(schema = @Schema(allowableValues = {"FAILED"}))
                                        @PathVariable() JobStatus jobStatus) {

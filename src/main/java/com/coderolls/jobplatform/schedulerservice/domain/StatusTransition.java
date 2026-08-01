@@ -13,7 +13,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatusTransition {
-    private JobStatus status;
+    private JobStatus jobStatus;
     private Instant enteredAt;
     private Instant exitedAt;   // null while this is the current/active status
 }

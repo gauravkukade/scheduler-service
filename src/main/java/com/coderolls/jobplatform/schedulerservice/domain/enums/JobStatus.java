@@ -3,7 +3,7 @@ package com.coderolls.jobplatform.schedulerservice.domain.enums;
 public enum JobStatus {
     CREATED,
     DISPATCHING,
-    READY,              // Processor accepted the request, queued, not yet executing
+    RECEIVED,           // Processor accepted the request, i.e. received at processor side
     PROCESSING,         // renamed from RUNNING
     SKIPPED_CONCURRENT,
     PROCESSOR_UNAVAILABLE,
