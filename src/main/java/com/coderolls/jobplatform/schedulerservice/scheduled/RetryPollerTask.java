@@ -24,7 +24,7 @@ public class RetryPollerTask {
     @Scheduled(fixedDelayString = "${retry.poller.fixed-delay-ms:15000}")
     public void pollAndRetry() {
         List<JobInstance> due = jobInstanceRepository
-                .findByStatusAndNextRetryAtLessThanEqual(JobStatus.PROCESSOR_UNAVAILABLE, Instant.now());
+                .findByJobStatusAndNextRetryAtLessThanEqual(JobStatus.PROCESSOR_UNAVAILABLE, Instant.now());
 
         for (JobInstance instance : due) {
             if (instance.getRetryCount() >= instance.getMaxRetryAttempts()) {

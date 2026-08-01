@@ -22,12 +22,12 @@ public class JobInstanceService {
     private final ProcessorClient processorClient;
 
     public static final List<JobStatus> NON_TERMINAL = List.of(
-            JobStatus.CREATED, JobStatus.DISPATCHING, JobStatus.READY,
+            JobStatus.CREATED, JobStatus.DISPATCHING, JobStatus.RECEIVED,
             JobStatus.PROCESSING, JobStatus.PROCESSOR_UNAVAILABLE, JobStatus.RETRY_SCHEDULED);
 
     public boolean hasNonTerminalInstance(String jobName, String businessDate) {
         return !jobInstanceRepository
-                .findByJobNameAndBusinessDateAndStatusIn(jobName, businessDate, NON_TERMINAL)
+                .findByJobNameAndBusinessDateAndJobStatusIn(jobName, businessDate, NON_TERMINAL)
                 .isEmpty();
     }
 
@@ -41,9 +41,9 @@ public class JobInstanceService {
                 .businessDate(businessDate)
                 .triggerType(triggerType)
                 .attemptNumber(1)
-                .status(initialStatus)
+                .jobStatus(initialStatus)
                 .statusHistory(new ArrayList<>(List.of(
-                        StatusTransition.builder().status(initialStatus).enteredAt(now).build())))
+                        StatusTransition.builder().jobStatus(initialStatus).enteredAt(now).build())))
                 .retryCount(0)
                 .maxRetryAttempts(Integer.parseInt(dataMap.getString("maxRetryAttempts")))
                 .retryBackoffSeconds(Integer.parseInt(dataMap.getString("retryBackoffSeconds")))
@@ -58,8 +58,8 @@ public class JobInstanceService {
         if (!history.isEmpty()) {
             history.get(history.size() - 1).setExitedAt(now);
         }
-        history.add(StatusTransition.builder().status(newStatus).enteredAt(now).build());
-        instance.setStatus(newStatus);
+        history.add(StatusTransition.builder().jobStatus(newStatus).enteredAt(now).build());
+        instance.setJobStatus(newStatus);
         return jobInstanceRepository.save(instance);
     }
 
@@ -71,8 +71,6 @@ public class JobInstanceService {
             instance.setLastAttemptAt(Instant.now());
             instance.setNextRetryAt(Instant.now().plusSeconds(instance.getRetryBackoffSeconds()));
             transitionTo(instance, JobStatus.PROCESSOR_UNAVAILABLE);
-        } else {
-            transitionTo(instance, JobStatus.READY);
         }
     }
 

@@ -40,7 +40,7 @@ public class JobInstance {
     private int attemptNumber;
 
     @Indexed
-    private JobStatus status;                    // current status — denormalized for fast filtering
+    private JobStatus jobStatus;                    // current status — denormalized for fast filtering
     private List<StatusTransition> statusHistory; // full trail
 
     private String failureReason;
@@ -53,4 +53,5 @@ public class JobInstance {
     private int retryBackoffSeconds;
 
     private String triggeredBy;
+    private int timeoutSeconds;
 }
