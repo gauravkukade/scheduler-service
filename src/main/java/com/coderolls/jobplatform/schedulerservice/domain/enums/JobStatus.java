@@ -11,5 +11,12 @@ public enum JobStatus {
     SUCCESS,
     FAILED,
     TIMED_OUT,
-    MAX_RETRIES_EXCEEDED
+    MAX_RETRIES_EXCEEDED;
+
+    public boolean isTerminal() {
+        return this == SUCCESS
+                || this == FAILED
+                || this == TIMED_OUT
+                || this == MAX_RETRIES_EXCEEDED;
+    }
 }

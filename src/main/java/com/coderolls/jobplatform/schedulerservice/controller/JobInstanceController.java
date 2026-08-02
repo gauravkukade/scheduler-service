@@ -2,12 +2,15 @@ package com.coderolls.jobplatform.schedulerservice.controller;
 
 import com.coderolls.jobplatform.schedulerservice.domain.JobInstance;
 import com.coderolls.jobplatform.schedulerservice.domain.enums.JobStatus;
+import com.coderolls.jobplatform.schedulerservice.dto.JobCompletionEvent;
 import com.coderolls.jobplatform.schedulerservice.repository.JobInstanceRepository;
+import com.coderolls.jobplatform.schedulerservice.service.JobCompletionService;
 import com.coderolls.jobplatform.schedulerservice.service.JobInstanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.quartz.SchedulerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,7 @@ public class JobInstanceController {
 
     private final JobInstanceRepository jobInstanceRepository;
     private final JobInstanceService jobInstanceService;
+    private final JobCompletionService jobCompletionService;
 
     @Operation(summary = "Get full details of a job instance")
     @GetMapping("/{instanceId}")
@@ -46,5 +50,11 @@ public class JobInstanceController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @PostMapping("/completion")
+    public ResponseEntity<Void> jobCompleted(@RequestBody JobCompletionEvent jobCompletionEvent) throws SchedulerException {
+        jobCompletionService.onJobCompletion(jobCompletionEvent);
+        return ResponseEntity.ok().build();
     }
 }

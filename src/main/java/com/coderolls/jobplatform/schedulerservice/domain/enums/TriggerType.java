@@ -4,5 +4,6 @@ public enum TriggerType {
     SCHEDULED,
     MANUAL,
     RERUN,
-    CHAINED
+    CHAINED,
+    DEPENDENCY
 }

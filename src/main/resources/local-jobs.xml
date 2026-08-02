@@ -47,5 +47,42 @@
                 <cron-expression>0 */2 * * * ?</cron-expression>
             </cron>
         </trigger>
+
+        <job>
+            <name>TradeReportingMurexEquityEmeaUkFileGenerationJob</name>
+            <group>TradeReporting</group>
+            <job-class>com.coderolls.jobplatform.schedulerservice.quartz.JobDispatcher</job-class>
+
+            <durability>true</durability>
+            <recover>false</recover>
+
+            <job-data-map>
+                <entry>
+                    <key>concurrencyPolicy</key>
+                    <value>SINGLE_INSTANCE</value>
+                </entry>
+
+                <entry>
+                    <key>misfirePolicy</key>
+                    <value>FIRE_NOW</value>
+                </entry>
+
+                <entry>
+                    <key>maxRetryAttempts</key>
+                    <value>3</value>
+                </entry>
+
+                <entry>
+                    <key>retryBackoffSeconds</key>
+                    <value>30</value>
+                </entry>
+
+                <entry>
+                    <key>timeoutSeconds</key>
+                    <value>600</value>
+                </entry>
+                <!-- No next job -->
+            </job-data-map>
+        </job>
     </schedule>
 </job-scheduling-data>

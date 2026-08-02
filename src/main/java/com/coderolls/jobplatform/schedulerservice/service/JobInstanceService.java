@@ -4,9 +4,12 @@ import com.coderolls.jobplatform.schedulerservice.client.ProcessorClient;
 import com.coderolls.jobplatform.schedulerservice.domain.JobInstance;
 import com.coderolls.jobplatform.schedulerservice.domain.StatusTransition;
 import com.coderolls.jobplatform.schedulerservice.domain.enums.*;
+import com.coderolls.jobplatform.schedulerservice.dto.DispatchRequest;
+import com.coderolls.jobplatform.schedulerservice.dto.JobCompletionEvent;
 import com.coderolls.jobplatform.schedulerservice.repository.JobInstanceRepository;
 import lombok.RequiredArgsConstructor;
-import org.quartz.JobDataMap;
+import lombok.extern.slf4j.Slf4j;
+import org.quartz.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JobInstanceService {
