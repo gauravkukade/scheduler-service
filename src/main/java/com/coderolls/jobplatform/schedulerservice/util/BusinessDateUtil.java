@@ -11,6 +11,10 @@ public final class BusinessDateUtil {
 
     private BusinessDateUtil() {}
 
+    public static String getBusinessDate() {
+        return todayMinus1();
+    }
+
     /** Business date is always computed from UTC "today", previous business day (T-1, weekends skipped). */
     public static String todayMinus1() {
         return format(previousBusinessDay(LocalDate.now(ZoneOffset.UTC)));
